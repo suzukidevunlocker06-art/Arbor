@@ -23,7 +23,8 @@ import kotlinx.coroutines.launch
 
 enum class NavigationTab(val label: String, val iconName: String) {
   PROJECTS("Proyectos", "folder"),
-  TASKS("Tareas", "assignment"),
+  TASKS("Tareas & Kanban", "assignment"),
+  SHOWCASE("YouTube & Vitrina", "smart_display"),
   COLLABORATION("Discusión", "chat"),
   TEAM_PERMISSIONS("Equipo & Permisos", "security"),
   NOTIFICATIONS("Alertas", "notifications")
@@ -251,6 +252,12 @@ class ArborViewModel(application: Application) : AndroidViewModel(application) {
   fun updateTaskStatus(taskId: String, taskTitle: String, newStatus: String, projectId: String) {
     viewModelScope.launch {
       repository.updateTaskStatus(taskId, taskTitle, newStatus, projectId)
+    }
+  }
+
+  fun updateTaskDetails(task: TaskEntity) {
+    viewModelScope.launch {
+      repository.updateTaskDetails(task)
     }
   }
 

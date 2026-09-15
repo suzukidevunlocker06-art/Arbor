@@ -62,6 +62,45 @@ La interfaz de **Arbor** se rige por un principio de claridad visual absoluta:
 
 ---
 
+## 📺 Vitrina Oficial en YouTube & Capturas de la App
+
+El repositorio cuenta con material de exhibición oficial y capturas de pantalla de la interfaz:
+
+![YouTube Showcase Banner](app/src/main/res/drawable/youtube_showcase.jpg)
+
+- **Tour Oficial en Video**: Demostración 4K de la aplicación con recorrido por los módulos principales (Tablero Kanban, notas de voz, chat remoto en vivo y gestión de permisos).
+- **Identidad de Marca**: Logo botánico natural de alta resolución integrado en la pantalla principal y en los iconos adaptativos de Android (`res/drawable/ic_arbor_logo.xml`).
+- **Pestaña Dedicada**: Sección interactiva "YouTube & Vitrina" dentro de la propia aplicación con reproductor integrado y enlace directo de compartición.
+
+---
+
+## 🚀 Mejoras de Nivel 2 (Level 2 Upgrade)
+
+Arbor Workspace ha sido elevado a **Nivel 2** con capacidades avanzadas de productividad y robustez técnica:
+
+1. **Tablero Kanban Nivel 2**:
+   - Selector dinámico de vista (*Lista Detallada* vs *Tablero Kanban Pro*).
+   - 4 columnas sincronizadas: *Pendiente*, *En Progreso*, *En Revisión* y *Completada*.
+   - Botones de avance y retroceso instantáneo con un solo toque (`←` y `→`).
+   - Edición integral de tareas desde modal (*Título, Descripción, Prioridad, Responsable, Etiqueta, Fecha*).
+
+2. **Métricas de Velocidad y Reporte de Sprint**:
+   - Indicador visual de porcentaje de avance en tiempo real.
+   - Conteo clasificado de tareas urgentes, en curso y dictadas por voz.
+   - Generador y exportador de reportes de sprint mediante el Android Share Sheet nativo.
+
+3. **Reproductor de Audio Dinámico**:
+   - Animación de avance en tiempo real de las ondas de audio (*soundwave ticker*).
+   - Cronómetro de reproducción y transcripción editable.
+
+4. **Colaboración Multi-Huso Horario en Vivo**:
+   - Seguimiento continuo de la hora actual en centros de trabajo remotos (Madrid, Bogotá, Londres y Tokio).
+
+5. **Compilación Robusta de APK**:
+   - Pipeline de construcción verificado con Gradle para generar el APK sin fallos ni dependencias rotas (`gradle :app:assembleDebug`).
+
+---
+
 ## 🏗️ Arquitectura Técnica
 
 ```

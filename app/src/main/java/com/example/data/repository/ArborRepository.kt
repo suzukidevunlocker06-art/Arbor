@@ -373,6 +373,20 @@ class ArborRepository(private val dao: ArborDao) {
     dao.insertActivityLog(log)
   }
 
+  suspend fun updateTaskDetails(task: TaskEntity) {
+    dao.updateTask(task)
+
+    val log = ActivityLogEntity(
+      id = "act_" + UUID.randomUUID().toString().take(8),
+      projectId = task.projectId,
+      actorName = "Sofia Navarro",
+      actionText = "actualizó los detalles de la tarea:",
+      targetItem = task.title,
+      category = "task"
+    )
+    dao.insertActivityLog(log)
+  }
+
   suspend fun deleteTask(taskId: String) {
     dao.deleteTaskById(taskId)
   }

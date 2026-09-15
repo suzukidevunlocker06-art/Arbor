@@ -25,11 +25,13 @@ import androidx.compose.material.icons.filled.ChatBubbleOutline
 import androidx.compose.material.icons.filled.FolderOpen
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Security
+import androidx.compose.material.icons.filled.VideoLibrary
 import androidx.compose.material.icons.outlined.Assignment
 import androidx.compose.material.icons.outlined.ChatBubbleOutline
 import androidx.compose.material.icons.outlined.FolderOpen
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Security
+import androidx.compose.material.icons.outlined.VideoLibrary
 
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
@@ -61,6 +63,7 @@ import com.example.ui.screens.NotificationsScreen
 import com.example.ui.screens.ProjectsScreen
 import com.example.ui.screens.TasksScreen
 import com.example.ui.screens.TeamPermissionsScreen
+import com.example.ui.screens.YouTubeShowcaseScreen
 import com.example.ui.theme.ArborBlack
 import com.example.ui.theme.ArborBorder
 import com.example.ui.theme.ArborForest
@@ -254,7 +257,14 @@ fun MainAppLayout(
             contentColor = ArborBlack,
             tonalElevation = 6.dp
           ) {
-            NavigationTab.values().forEach { tab ->
+            val mobileTabs = listOf(
+              NavigationTab.PROJECTS,
+              NavigationTab.TASKS,
+              NavigationTab.SHOWCASE,
+              NavigationTab.COLLABORATION,
+              NavigationTab.TEAM_PERMISSIONS
+            )
+            mobileTabs.forEach { tab ->
               val isSelected = selectedTab == tab
               NavigationBarItem(
                 selected = isSelected,
@@ -287,6 +297,7 @@ fun MainAppLayout(
                     text = when (tab) {
                       NavigationTab.PROJECTS -> "Proyectos"
                       NavigationTab.TASKS -> "Tareas"
+                      NavigationTab.SHOWCASE -> "YouTube"
                       NavigationTab.COLLABORATION -> "Discusión"
                       NavigationTab.TEAM_PERMISSIONS -> "Equipo"
                       NavigationTab.NOTIFICATIONS -> "Alertas"
@@ -398,7 +409,14 @@ fun ScreenContent(
           onDismissCreateDialog = { viewModel.setShowCreateTaskDialog(false) },
           onCreateManualTaskConfirm = { projId, title, desc, prio, date, tag, assignee ->
             viewModel.createManualTask(projId, title, desc, prio, date, tag, assignee)
-          }
+          },
+          onUpdateTaskDetails = { viewModel.updateTaskDetails(it) }
+        )
+      }
+
+      NavigationTab.SHOWCASE -> {
+        YouTubeShowcaseScreen(
+          onNavigateToTab = { viewModel.selectTab(it) }
         )
       }
 
@@ -439,9 +457,9 @@ fun getTabIcon(tab: NavigationTab, isSelected: Boolean): ImageVector {
   return when (tab) {
     NavigationTab.PROJECTS -> if (isSelected) Icons.Filled.FolderOpen else Icons.Outlined.FolderOpen
     NavigationTab.TASKS -> if (isSelected) Icons.Filled.Assignment else Icons.Outlined.Assignment
+    NavigationTab.SHOWCASE -> if (isSelected) Icons.Filled.VideoLibrary else Icons.Outlined.VideoLibrary
     NavigationTab.COLLABORATION -> if (isSelected) Icons.Filled.ChatBubbleOutline else Icons.Outlined.ChatBubbleOutline
     NavigationTab.TEAM_PERMISSIONS -> if (isSelected) Icons.Filled.Security else Icons.Outlined.Security
     NavigationTab.NOTIFICATIONS -> if (isSelected) Icons.Filled.Notifications else Icons.Outlined.Notifications
-
   }
 }

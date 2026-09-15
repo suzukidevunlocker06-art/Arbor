@@ -298,6 +298,20 @@ fun VoiceWaveformPlayer(
   modifier: Modifier = Modifier
 ) {
   var isPlaying by remember { mutableStateOf(false) }
+  var currentPlaybackSec by remember { mutableStateOf(0) }
+
+  androidx.compose.runtime.LaunchedEffect(isPlaying) {
+    if (isPlaying) {
+      currentPlaybackSec = 0
+      val maxSec = if (durationSec > 0) durationSec else 10
+      while (isPlaying && currentPlaybackSec < maxSec) {
+        kotlinx.coroutines.delay(1000)
+        currentPlaybackSec++
+      }
+      isPlaying = false
+      currentPlaybackSec = 0
+    }
+  }
 
   Column(
     modifier = modifier
@@ -314,7 +328,7 @@ fun VoiceWaveformPlayer(
         modifier = Modifier
           .size(36.dp)
           .clip(CircleShape)
-          .background(ArborForest)
+          .background(if (isPlaying) ArborBlack else ArborForest)
           .clickable { isPlaying = !isPlaying },
         contentAlignment = Alignment.Center
       ) {
@@ -326,19 +340,25 @@ fun VoiceWaveformPlayer(
         )
       }
 
-      // Simulated Soundwave
+      // Dynamic Animated Soundwave
       Row(
         modifier = Modifier.weight(1f),
         horizontalArrangement = Arrangement.spacedBy(3.dp),
         verticalAlignment = Alignment.CenterVertically
       ) {
         val barHeights = listOf(14, 24, 18, 28, 12, 32, 20, 16, 26, 30, 14, 22, 10, 24, 18, 28)
+        val maxSec = if (durationSec > 0) durationSec else 1
+        val progressFraction = if (isPlaying) currentPlaybackSec.toFloat() / maxSec.toFloat() else 0f
+        val activeBarIndex = (progressFraction * barHeights.size).toInt()
+
         barHeights.forEachIndexed { index, h ->
-          val barColor = if (isPlaying && index < 9) ArborBlack else ArborTextTertiary
+          val isPassed = isPlaying && index <= activeBarIndex
+          val barColor = if (isPassed) ArborForest else ArborTextTertiary
+          val currentH = if (isPlaying && index == activeBarIndex) (h * 1.3f).coerceAtMost(36f) else h.toFloat()
           Box(
             modifier = Modifier
               .width(3.dp)
-              .height(h.dp)
+              .height(currentH.dp)
               .clip(RoundedCornerShape(2.dp))
               .background(barColor)
           )
@@ -346,10 +366,10 @@ fun VoiceWaveformPlayer(
       }
 
       Text(
-        text = "${durationSec}s",
+        text = if (isPlaying) "0:${currentPlaybackSec.toString().padStart(2, '0')}" else "${durationSec}s",
         fontSize = 11.sp,
         fontWeight = FontWeight.SemiBold,
-        color = ArborTextSecondary
+        color = if (isPlaying) ArborForest else ArborTextSecondary
       )
     }
 
