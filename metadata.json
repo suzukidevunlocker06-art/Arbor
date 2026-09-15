@@ -1,0 +1,7 @@
+{
+  "name": "Arbor Workspace",
+  "description": "Gestión profesional de proyectos y colaboración avanzada en tiempo real para equipos remotos con diseño minimalista blanco y negro orgánico.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
